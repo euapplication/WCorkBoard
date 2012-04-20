@@ -1,4 +1,21 @@
 WCorkBoard::Application.routes.draw do
+  root to: 'main#home'
+  resources :main, only: [:home, :login, :help]
+
+  match '/', to: 'main#home'
+  match '/main', to: 'main#home'
+  match '/home', to: 'main#home'
+  match '/help', to: 'main#help'
+  match '/login', to: 'main#login'
+
+  get "main/home"
+
+  get "main/help"
+
+  get "main/login"
+
+  get "home/help"
+
   get "users/new"
 
   # The priority is based upon order of creation:
