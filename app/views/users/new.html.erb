@@ -1,2 +1,29 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<%= provide(:title,'Sign up') %>
+<h1>アカウント新規作成</h1><br>
+<div id="signup-page">
+<div class="row">
+  <div class="span6 offset3"><br>
+    <%= form_for(@user) do |f| %>
+      <div style="color:#ff6633;">WCorkBoardのアカウントを新しく作成します<br><br></div>
+
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :name, "ニックネーム" %>
+      <%= f.text_field :name %>
+
+      <%= f.label :email, "メールアドレス" %>
+      <%= f.text_field :email %>
+
+      <%= f.label :password, "パスワード" %>
+      <%= f.password_field :password %>
+
+      <%= f.label :password_confirmation,  "パスワード再入力" %>
+      <%= f.password_field :password_confirmation %>
+
+      <div align="right">
+        <%= f.submit "登録", class: "btn btn-large btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+</div>

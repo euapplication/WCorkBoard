@@ -5,22 +5,16 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <%= render 'layouts/shim' %>
 </head>
 <body>
-  <header class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <%= link_to "WCB", '#', id: "logo" %>
-        <nav>
-          <ul class="nav pull-right">
-            #ここにリンクなどを入れる
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </header>
+  <%= render 'layouts/header' %>
   <div class="container">
+    <% flash.each do |key, value| %>
+      <%= content_tag(:div, valud, class: "alert alert-#{key}") %>
+    <% end %>
     <%= yield %>
+    <%= render 'layouts/footer' %>
   </div>
 </body>
 </html>

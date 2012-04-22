@@ -1,0 +1,24 @@
+<% provide(:title, "ログイン") %>
+<h1>ログイン</h1><br>
+
+<div id="signup-page">
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(:session, url: sessions_path) do |f| %><br>
+
+      <%= f.label :email, "メールアドレス" %>
+      <%= f.text_field :email %>
+
+      <%= f.label :password, "パスワード" %>
+      <%= f.password_field :password %>
+
+      ブラウザにログイン情報を保存する <%= f.check_box :flg %>
+
+      <div align="right">
+        <%= f.submit "ログイン",  class: "btn btn-large btn-primary" %>
+        <p>アカウントをお持ちでない方は <%= link_to "こちら", '../users/new' %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+</div>
