@@ -12,8 +12,6 @@
       <%= f.label :password, "パスワード" %>
       <%= f.password_field :password %>
 
-      ブラウザにログイン情報を保存する <%= f.check_box :flg %>
-
       <div align="right">
         <%= f.submit "ログイン",  class: "btn btn-large btn-primary" %>
         <p>アカウントをお持ちでない方は <%= link_to "こちら", '../users/new' %></p>

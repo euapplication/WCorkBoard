@@ -1,4 +1,78 @@
 <% provide(:title, @user.name) %>
-<h1>
-  <%= @user.name %>
-</h1>
+<div class="left hero-unit">
+  <div class="yui3-skin-sam">
+    <p><button id="add"> 付箋を追加</button></p>
+
+    <canvas id="canvas" width="1000" height="480" color="#ff0033">
+      このWebブラウザはcanvasの描画に対応していません。
+    </canvas>
+
+    <div id="panelContent">
+      <div class="yui3-widget-bd">
+        <form>
+          <fieldset>
+            <p>
+              <label for="subject">件名</label>
+              <input type="text" name="subject" id="subject" value="" placeholder="">
+            </p>
+            <p>
+              <label for="detail">メモ内容</label>
+              <textarea name="detail" id="detail" cols="100" rows="10"></textarea>
+            </p>
+          </fieldset>
+        </form>
+      </div>
+     </div>
+  </div>
+
+  <script type="text/javascript">
+    YUI({ gallery: 'gallery-2012.04.12-13-50' }).use('gallery-patch-350-widget-modality', 'datatable-mutable', 'panel', 'dd-plugin', function(Y) {
+      var subField = Y.one('#subject'),
+          detailField = Y.one('#detail'),
+          addBtn = Y.one('#add'),
+          cols = ['subject', 'detail'],
+          dt, panel;
+
+      function addItem() {
+        dt.addRow({
+          subject: subjectField.get('value'),
+          detail: detailField.get('value'),
+        });
+        panel.hide();
+      }
+
+      panel = new Y.Panel({
+        srcNode :'#panelContent',
+        headerContent: '  付箋の新規作成',
+        width  :500,
+        zIndex :5,
+        centered :true,
+        modal :true,
+        visible :false,
+        render :true,
+        plugins :[Y.Plugin.Drag]
+      });
+
+      panel.addButton({
+        value :'付箋を追加',
+        section :Y.WidgetStdMod.FOOTER,
+        action :function(e){
+          e.preventDefault();
+          removeAllItemsConfirm();
+        }
+      });
+
+      addBtn.on('click', function(e) {
+        panel.show();
+      });
+    });
+  </script>
+  
+  <script type="text/javascript">
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext('2d');
+        //ここに処理を記述
+        ctx.stroke();
+        ctx.closePath();
+    </script>
+</div>

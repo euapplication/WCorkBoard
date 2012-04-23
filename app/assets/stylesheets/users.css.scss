@@ -1,3 +1,139 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "bootstrap";
+@import "../skin/sam/panel-skin.css";
+
+$grayMediumLight: #eaeaea;
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+    overflow-y: scroll;
+ }
+ 
+body {
+  padding-top: 50px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  width: 100%;
+  resize: both;
+}
+
+.center {
+  background-color: rgba(255, 255, 255,  0.4);
+  text-align: center;
+}
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+  line-height: 1;
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+footer {
+  text-align: center;
+  margin-top: 55px;
+  padding-top: 5px;
+  color: #000000;
+  a {
+    color: #555;
+    &:hover {
+      color: #222;
+    }
+  }
+  small {
+    text-align: center;
+  }
+}
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  padding: 10px;
+  height: auto;
+  margin-bottom: 15px;
+  @include box_sizing;
+}
+
+#desc {
+    margin-bottom: 20px;
+    border-bottom: 1px dotted #333;
+  }
+  #desk span {
+    background: #a3350d;
+    padding :2px;
+    color: #f27243;
+  }
+
+  .yui3-panel {
+    background-color: #ccffff;
+  }
+  .yui3-panel-content .yui3-widget-hd {
+    font-weight: bold;
+  }
+  .yui3-panel-content .yui3-widget-bd {
+    align: left;
+    padding: 15px;
+  }
+  .yui3-panel-content label {
+    align: left;
+    margin-right: 30px;
+  }
+  .yui3-panel-content fieldset {
+    border: 1px;
+    padding: 0;
+  }
+
+  .yui3-panel-content input[type="text"] {
+    align: left;
+    border: none;
+    border: 1px solid #ccc;
+    padding: 3px 7px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    font-size: 100%;
+    width: 200px;
+  }
+  
+  #panelContent {
+    align: left;
+  }
+
+  #addRow {
+    margin-top: 10px;
+  }
+
+  #dt {
+    margin-left: 1em;
+  }
+
+  #dt th, #dt td{
+    border: 0 none;
+    border-left: 1px solid #cbcbcb;
+  }
+  
+  #canvas {
+    background-image: url("cork.png");
+    background-size: cover;
+    background-position: center;
+  }

@@ -7,4 +7,7 @@ class MainController < ApplicationController
 
   def login
   end
+
+  def test
+  end
 end
