@@ -10,11 +10,7 @@
 <div class="left hero-unit">
   <div class="yui3-skin-sam">
     <p><button id="add"> 付箋を追加</button></p>
-     <div id="defaultCal"></div>
-    <canvas id="canvas" width="1000" height="480" color="#ff0033">
-      このWebブラウザはcanvasの描画に対応していません。
-    </canvas>
-    
+    <div id="tabtable"></div>
     <div id="panelContent">
       <div class="yui3-widget-bd">
         <form>
@@ -75,7 +71,27 @@
       });
     });
   </script>
-  
+
+  <script type="text/javascript">
+    YUI().use('tabview', function(Y) {
+    var tabview = new Y.TabView({
+        children: [{
+            label: 'ボード1',
+            content: '<div id="defaultCal"></div>'
+        }, {
+            label: 'ボード2',
+            content: '<p>bar content</p>'
+        }, {
+            label: 'ボード3',
+            content: '<p>baz content</p>'
+        }]
+    });
+
+    tabview.render('#tabtable');
+    tabview.selectChild(0);
+});
+</script>
+
   <script type="text/javascript">
     YUI().use('calendar', 'datatype-date', 'cssbutton', function(Y) {
         var calendar = new Y.Calendar({
@@ -94,12 +110,4 @@
         });
      });
   </script>
-  
-  <script type="text/javascript">
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext('2d');
-              
-        ctx.stroke();
-        ctx.closePath();
-    </script>
 </div>
