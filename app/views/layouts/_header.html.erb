@@ -6,7 +6,6 @@
         <ul class="nav pull-right">
           <li><%= link_to "ホーム", root_path %></li>
           <li><%= link_to "ヘルプ", help_path %></li>
-
           <% if signed_in? %>
             <li><%= link_to "マイページ", '#' %></li>
             <li id="fat-menu" class="dropdown">

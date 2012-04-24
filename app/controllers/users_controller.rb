@@ -6,7 +6,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @user
   end
 
   def new
@@ -17,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success]="アカウントの作成が完了しました。WCorkBoardへようこそ！"
+      flash[:success] = "アカウントの作成が完了しました。WCorkBoardへようこそ！"
       redirect_to @user
     else
       render 'new'

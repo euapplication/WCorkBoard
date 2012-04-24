@@ -1,12 +1,20 @@
 <% provide(:title, @user.name) %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag    "users", :media => "all" %>
+  <%= csrf_meta_tags %>
+  <script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+  <script src="http://yui.yahooapis.com/3.5.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+  <script src="http://yui.yahooapis.com/3.5.0/build/calendar/calendar-min.js"></script>
+<% end %>
 <div class="left hero-unit">
   <div class="yui3-skin-sam">
     <p><button id="add"> 付箋を追加</button></p>
-
+     <div id="defaultCal"></div>
     <canvas id="canvas" width="1000" height="480" color="#ff0033">
       このWebブラウザはcanvasの描画に対応していません。
     </canvas>
-
+    
     <div id="panelContent">
       <div class="yui3-widget-bd">
         <form>
@@ -69,9 +77,28 @@
   </script>
   
   <script type="text/javascript">
+    YUI().use('calendar', 'datatype-date', 'cssbutton', function(Y) {
+        var calendar = new Y.Calendar({
+          contentBox: "#defaultCal",
+          width: '300px',
+          showPrevMonth: false,
+          showNextMont: true,
+          date: new Date() }).render();
+          
+        var dtdate = Y.DataType.Date;
+        
+        calendar.on("selectionChange", function(ev) {
+          var newDate = ev.newSelection[0];
+          
+          Y.one("#selecteddate").setContent(dtdate.format(newDate));
+        });
+     });
+  </script>
+  
+  <script type="text/javascript">
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext('2d');
-        //ここに処理を記述
+              
         ctx.stroke();
         ctx.closePath();
     </script>
