@@ -6,7 +6,11 @@
   </h2>
 
   <br><br>
-  <%= link_to "ログインする", '../sessions/new', class: "btn btn-large btn-primary" %><br><br>
+  <% if signed_in? %>
+    <%= link_to "マイページへ移動する", current_user, class: "btn btn-large btn-primary" %><br><br>
+  <% else %>
+    <%= link_to "ログインする", '../sessions/new', class: "btn btn-large btn-primary" %><br><br>
+  <% end %>
   <h3>
     アカウントの新規作成は<%= link_to "こちらから", '../users/new' %>
   </h3>

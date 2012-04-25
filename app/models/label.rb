@@ -1,5 +1,4 @@
 class Label < ActiveRecord::Base
-  attr_accessible :detail, :height, :title, :user_id, :width
-  
+  attr_accessible :color_hex, :detail, :title, :user_id, :x, :y
   belongs_to :user_id
 end

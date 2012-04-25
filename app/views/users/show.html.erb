@@ -3,14 +3,16 @@
   <%= stylesheet_link_tag    "users", :media => "all" %>
   <%= csrf_meta_tags %>
   <script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
-  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.5.0/build/fonts/fonts-min.css" />
   <script src="http://yui.yahooapis.com/3.5.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
   <script src="http://yui.yahooapis.com/3.5.0/build/calendar/calendar-min.js"></script>
-<% end %>
+  <script src="http://yui.yahooapis.com/3.5.0/build/slider-value-range/slider-value-range-min.js"></script>
+  <% end %>
 <div class="left hero-unit">
   <div class="yui3-skin-sam">
-    <p><button id="add"> 付箋を追加</button></p>
+    <p><button id="add"> 付箋を書く</button></p>
     <div id="tabtable"></div>
+    
     <div id="panelContent">
       <div class="yui3-widget-bd">
         <form>
@@ -27,12 +29,43 @@
         </form>
       </div>
      </div>
+     
+     <div id="colorPicker">
+       <div class="yui3-widget-bd">
+         <form>
+           <fieldset>
+             <p>
+              <div id="picker"></div>
+             </p>
+           </fieldset>
+         </form>
+       </div>
+     </div>
+     
+     <div id="tagLabel">
+       <form>
+         <fieldset>
+           <label for="subject" id="subField"></div>
+           <label for="detail" id="detailField"></div>
+         </fieldset>
+       </form>
+     </div>
   </div>
 
   <script type="text/javascript">
+    var clr;
+    var tabview;
+    var tabItems1 = new Object();
+    tabItems1.array = new Array();
+    var tabItems2 = new Object();
+    tabItems2.array = new Array();
+    var tabItems3 = new Object();
+    tabItems3.array = new Array();
+    
     YUI({ gallery: 'gallery-2012.04.12-13-50' }).use('gallery-patch-350-widget-modality', 'datatable-mutable', 'panel', 'dd-plugin', function(Y) {
       var subField = Y.one('#subject'),
           detailField = Y.one('#detail'),
+          clrPic = Y.one('#color'),
           addBtn = Y.one('#add'),
           cols = ['subject', 'detail'],
           dt, panel;
@@ -44,6 +77,18 @@
         });
         panel.hide();
       }
+      
+      clrPic = new Y.Panel({
+        srcNode :'#colorPicker',
+        headerContent: '付箋の色を選択',
+        width : 400,
+        zIndex :5,
+        contered :true,
+        modal :true,
+        visible :false,
+        render :true,
+        plugins :[Y.Plugin.Drag]
+      });
 
       panel = new Y.Panel({
         srcNode :'#panelContent',
@@ -58,48 +103,88 @@
       });
 
       panel.addButton({
+        value :'付箋の色を選択',
+        section :Y.WidgetStdMod.FOOTER,
+        action :function(e) {
+          clrPic.show();
+        }
+      });
+      
+      panel.addButton({
         value :'付箋を追加',
         section :Y.WidgetStdMod.FOOTER,
         action :function(e){
-          e.preventDefault();
-          removeAllItemsConfirm();
+          var tags = tagGet();
+          tabItems1.push(tags);
+          panel.hide();
+        }
+      });
+      
+      clrPic.addButton({
+        value :'OK',
+        section :Y.WidgetStdMod.FOOTER,
+        action :function(e) {
+          clrPic.hide();
         }
       });
 
       addBtn.on('click', function(e) {
         panel.show();
       });
-    });
-  </script>
 
-  <script type="text/javascript">
+     YUI({gallery: 'gallery-2011.09.28-20-06'
+     }).use('gallery-colorpicker', function(Y) {
+        var colorpicker = new Y.ColorPicker();
+           colorpicker.render("#picker");
+	       Y.one('#getcolorbutton').on('click',function(ev) {
+		     ev.halt();
+		     clr = colorpicker.get('hex');
+         });
+      });
+   });
+       
+    function tagGet() {
+          var taglabel;
+          YUI().use('panel', 'dd-plugin', function (Y) {
+            taglabel = new Y.Panel({
+            srcNode : '#taglabel',
+            width   : 200,
+            height : 300,
+            centered: true,
+            render  : true,
+            plugins :[Y.Plugin.Drag]
+          }).render();
+      
+          return (taglabel);
+        });
+    };
+
     YUI().use('tabview', function(Y) {
-    var tabview = new Y.TabView({
+     tabview = new Y.TabView({
         children: [{
-            label: 'ボード1',
-            content: '<div id="defaultCal"></div>'
+            label: 'プライベート',
+            content: '<div align="right"><div id="defaultCal"></div><script>for(i in tabItems1) i.render();</div>'
         }, {
-            label: 'ボード2',
+            label: '仕事',
             content: '<p>bar content</p>'
         }, {
-            label: 'ボード3',
+            label: 'その他',
             content: '<p>baz content</p>'
         }]
-    });
+     });
 
     tabview.render('#tabtable');
     tabview.selectChild(0);
-});
-</script>
+   });
 
-  <script type="text/javascript">
-    YUI().use('calendar', 'datatype-date', 'cssbutton', function(Y) {
+    YUI().use('calendar', 'datatype-date', 'cssbutton', 'dd-plugin', function(Y) {
         var calendar = new Y.Calendar({
           contentBox: "#defaultCal",
           width: '300px',
-          showPrevMonth: false,
-          showNextMont: true,
-          date: new Date() }).render();
+          showPrevMonth: true,
+          showNextMonth: true,
+          date: new Date(),
+          plugins :[Y.Plugin.Drag] }).render();
           
         var dtdate = Y.DataType.Date;
         

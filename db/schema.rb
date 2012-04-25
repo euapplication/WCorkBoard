@@ -11,14 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424045008) do
+ActiveRecord::Schema.define(:version => 20120425045329) do
 
   create_table "labels", :force => true do |t|
     t.integer  "user_id"
     t.string   "title"
     t.string   "detail"
-    t.integer  "width"
-    t.integer  "height"
+    t.integer  "x"
+    t.integer  "y"
+    t.string   "color_hex"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
