@@ -7,10 +7,13 @@
   <script src="http://yui.yahooapis.com/3.5.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
   <script src="http://yui.yahooapis.com/3.5.0/build/calendar/calendar-min.js"></script>
   <script src="http://yui.yahooapis.com/3.5.0/build/slider-value-range/slider-value-range-min.js"></script>
-  <% end %>
+  <script type="text/javascript" src="../javascripts/jquery-1.7.2.min.js"></script>
+<% end %>
+
 <div class="left hero-unit">
   <div class="yui3-skin-sam">
-    <p><button id="add"> 付箋を書く</button></p>
+    <button id="add"> 付箋を書く</button>
+    <div id="userName" align="right"><%= current_user.name %> さん</div>
     <div id="tabtable"></div>
     
     <div id="panelContent">
@@ -34,33 +37,16 @@
        <div class="yui3-widget-bd">
          <form>
            <fieldset>
-             <p>
               <div id="picker"></div>
-             </p>
            </fieldset>
          </form>
        </div>
-     </div>
-     
-     <div id="tagLabel">
-       <form>
-         <fieldset>
-           <label for="subject" id="subField"></div>
-           <label for="detail" id="detailField"></div>
-         </fieldset>
-       </form>
      </div>
   </div>
 
   <script type="text/javascript">
     var clr;
     var tabview;
-    var tabItems1 = new Object();
-    tabItems1.array = new Array();
-    var tabItems2 = new Object();
-    tabItems2.array = new Array();
-    var tabItems3 = new Object();
-    tabItems3.array = new Array();
     
     YUI({ gallery: 'gallery-2012.04.12-13-50' }).use('gallery-patch-350-widget-modality', 'datatable-mutable', 'panel', 'dd-plugin', function(Y) {
       var subField = Y.one('#subject'),
@@ -69,14 +55,6 @@
           addBtn = Y.one('#add'),
           cols = ['subject', 'detail'],
           dt, panel;
-
-      function addItem() {
-        dt.addRow({
-          subject: subjectField.get('value'),
-          detail: detailField.get('value'),
-        });
-        panel.hide();
-      }
       
       clrPic = new Y.Panel({
         srcNode :'#colorPicker',
@@ -114,9 +92,10 @@
         value :'付箋を追加',
         section :Y.WidgetStdMod.FOOTER,
         action :function(e){
-          var tags = tagGet();
-          tabItems1.push(tags);
           panel.hide();
+          tagGet(subField.get('value'), detailField.get('value'));
+          subField.set('value', '');
+          detailField.set('value', '');
         }
       });
       
@@ -127,6 +106,10 @@
           clrPic.hide();
         }
       });
+      
+      function pushTag( obj ) {
+        tabview.Child(0).newVal(obj);
+      };
 
       addBtn.on('click', function(e) {
         panel.show();
@@ -134,48 +117,57 @@
 
      YUI({gallery: 'gallery-2011.09.28-20-06'
      }).use('gallery-colorpicker', function(Y) {
-        var colorpicker = new Y.ColorPicker();
-           colorpicker.render("#picker");
-	       Y.one('#getcolorbutton').on('click',function(ev) {
+        var colorpicker = new Y.ColorPicker({
+           srcNode : '#picker'
+           });
+           colorpicker.render();
+           
+	       Y.one('#color').on('click',function(ev) {
 		     ev.halt();
 		     clr = colorpicker.get('hex');
          });
       });
    });
-       
-    function tagGet() {
-          var taglabel;
-          YUI().use('panel', 'dd-plugin', function (Y) {
-            taglabel = new Y.Panel({
-            srcNode : '#taglabel',
-            width   : 200,
-            height : 300,
-            centered: true,
-            render  : true,
-            plugins :[Y.Plugin.Drag]
-          }).render();
-      
-          return (taglabel);
-        });
-    };
-
-    YUI().use('tabview', function(Y) {
+   
+   YUI().use('tabview', function(Y) {
      tabview = new Y.TabView({
         children: [{
-            label: 'プライベート',
-            content: '<div align="right"><div id="defaultCal"></div><script>for(i in tabItems1) i.render();</div>'
-        }, {
-            label: '仕事',
-            content: '<p>bar content</p>'
-        }, {
-            label: 'その他',
-            content: '<p>baz content</p>'
+            label: 'CorkBoard',
+            content: '<div class="container"><div align="right"><div id="defaultCal"></div></div></div>'
         }]
      });
-
     tabview.render('#tabtable');
     tabview.selectChild(0);
    });
+       
+    var cnt = 0;
+    function tagGet(su, de) {
+          var taglb;
+          var sub = su;
+          var det = de;
+          
+          YUI().use('panel', 'dd-plugin', function (Y) {
+            taglb = new Y.Panel({
+            bodyContent : det,
+            headerContent : sub,
+            centered: true,
+            modal: false,
+            render  : true,
+            visible : true,
+            plugins :[Y.Plugin.Drag]
+          });
+          
+          ("div.container").prepend("<p>"+taglb+"</p>");
+          ("p").attr("id", randomize());
+          
+          taglb.render();
+        });
+    };
+    
+    function randomize() {
+        cnt += 1;
+        return cnt;
+    };
 
     YUI().use('calendar', 'datatype-date', 'cssbutton', 'dd-plugin', function(Y) {
         var calendar = new Y.Calendar({
@@ -184,15 +176,10 @@
           showPrevMonth: true,
           showNextMonth: true,
           date: new Date(),
-          plugins :[Y.Plugin.Drag] }).render();
+          plugins :[Y.Plugin.Drag] });
           
-        var dtdate = Y.DataType.Date;
-        
-        calendar.on("selectionChange", function(ev) {
-          var newDate = ev.newSelection[0];
-          
-          Y.one("#selecteddate").setContent(dtdate.format(newDate));
-        });
-     });
+          var dtdate = Y.DataType.Date;
+          calendar.render();
+    });
   </script>
 </div>

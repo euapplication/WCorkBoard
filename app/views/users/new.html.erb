@@ -1,35 +1,35 @@
 <%= provide(:title,'Sign up') %>
+
 <% content_for :head do %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
 <% end %>
 
-  <h1>アカウント作成</h1><br>
-  <div id="signup-page">
-    <div class="row">
-      <div class="span6 offset3"><br>
-        <%= form_for(@user) do |f| %>
-          <div style="color:#ff6633;">WCorkBoardのアカウントを新しく作成します<br><br></div>
-      
-          <%= render 'shared/error_messages', object: f.object %>
+<h1>アカウント作成</h1>
+<div id="signup-page">
+<div class="row">
+  <div class="span6 offset3">
+      <%= form_for(@user) do |f| %>
+        <div style="color:#ff6633;">WCorkBoardのアカウントを新しく作成します<br><br></div>
 
-          <%= f.label :name, "ニックネーム" %>
-          <%= f.text_field :name %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-          <%= f.label :email, "メールアドレス" %>
-          <%= f.text_field :email %>
+        <%= f.label :name, "ニックネーム" %>
+        <%= f.text_field :name %>
 
-          <%= f.label :password, "パスワード" %>
-          <%= f.password_field :password %>
+        <%= f.label :email, "メールアドレス" %>
+        <%= f.text_field :email %>
 
-          <%= f.label :password_confirmation,  "パスワード再入力" %>
-          <%= f.password_field :password_confirmation %>
+        <%= f.label :password, "パスワード" %>
+        <%= f.password_field :password %>
 
-          <div align="right">
-            <%= f.submit "登録", class: "btn btn-large btn-primary" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+        <%= f.label :password_confirmation,  "パスワード再入力" %>
+        <%= f.password_field :password_confirmation %>
+
+        <div align="right">
+          <%= f.submit "登録", class: "btn btn-large btn-primary" %>
+        </div>
+      <% end %>
   </div>
+</div>
+</div>

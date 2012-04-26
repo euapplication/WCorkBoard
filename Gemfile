@@ -29,6 +29,11 @@ gem 'jquery-rails'
 group :test, :development do
   gem 'rspec-rails', '~>2.8.rc'
   gem 'guard-rspec','0.5.5'
+  gem 'spork'
+end
+
+group :test do
+  gem 'capybara'
 end
 
 group :production do

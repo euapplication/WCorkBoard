@@ -1,5 +1,5 @@
 WCorkBoard::Application.routes.draw do
-  resources :main, only: [:home, :login, :help]
+  resources :main, only: [:home, :login]
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
 
@@ -12,7 +12,6 @@ WCorkBoard::Application.routes.draw do
   match '/signup', to: 'users#new'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
-  match '/test', to: 'main#test'
 
   get "main/home"
 

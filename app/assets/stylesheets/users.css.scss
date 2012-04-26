@@ -55,10 +55,12 @@ textarea {
   width: 100%;
   height: 600px;
   background-image: url("cork.png");
+  zIndex: 1;
 }
 
 .yui3-tabview-panel {
   background-image: url("cork.png");
+  zIndex: 0;
 }
 
 footer {
@@ -149,9 +151,31 @@ input, textarea, select, .uneditable-input {
      background-color: #eeeeee;
      width: 420px;
      height:220px;
+     zIndex: 1;
   }
   
   #container .yui-picker-controls li {
     list-style: none;
   }
   
+  #userName {
+    font-size: 1.7em;
+    font-weight: bold;
+  }
+  
+  #defaultCal {
+    margin-top: 15px;
+  }
+  
+  #tabtable {
+    zIndex: 1;
+  }
+  
+  #tagLabel {
+    position: absolute;
+    zIndex: 100;
+ }
+ 
+ .yui3-tab-panel .yui3-tab-panel-selected {
+   zIndex: 1;
+ }
